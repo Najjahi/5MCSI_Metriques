@@ -31,7 +31,7 @@ def hello_world():
 @app.route('/tawarano/')
 def meteo():
     try:
-        # Replace 'xxx' with your actual OpenWeather API key
+        
         response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
         
         if response.status != 200:
@@ -41,11 +41,11 @@ def meteo():
         json_content = json.loads(raw_content.decode('utf-8'))
         
         results = []
-        for list_element in json_content.get('list', []):
+        for liste in json_content.get('list', []):
             dt_value = list_element.get('dt')
-            # Convert the Unix timestamp to a human-readable date
-            date_time = datetime.utcfromtimestamp(dt_value).strftime('%Y-%m-%d %H:%M:%S')
-            temp_day_value = list_element.get('main', {}).get('temp') - 273.15  # Convert Kelvin to Celsius
+           
+            date_time = datetime.utcfromtimestamp(dt_value).strftime('%Y-%m-%d %H:%M:%S')   # Convert the Unix timestamp to a human-readable date
+            temp_day_value = liste.get('main', {}).get('temp') - 273.15  # Convert Kelvin to Celsius
             
             results.append({
                 'DateTime': date_time,
