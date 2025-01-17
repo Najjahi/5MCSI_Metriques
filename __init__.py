@@ -16,17 +16,46 @@ def MaPremiereAPI():
 def hello_world():
     return render_template('hello.html')
 
+#@app.route('/tawarano/')
+#def meteo():
+    #response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
+    #raw_content = response.read()
+    #json_content = json.loads(raw_content.decode('utf-8'))
+    #results = []
+    #for list_element in json_content.get('list', []):
+        #dt_value = list_element.get('dt')
+        #temp_day_value = list_element.get('main', {}).get('temp') - 273.15 # Conversion de Kelvin en °c 
+        #results.append({'Jour': dt_value, 'temp': temp_day_value})
+    #return jsonify(results=results)
+
 @app.route('/tawarano/')
 def meteo():
-    response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
-    raw_content = response.read()
-    json_content = json.loads(raw_content.decode('utf-8'))
-    results = []
-    for list_element in json_content.get('list', []):
-        dt_value = list_element.get('dt')
-        temp_day_value = list_element.get('main', {}).get('temp') - 273.15 # Conversion de Kelvin en °c 
-        results.append({'Jour': dt_value, 'temp': temp_day_value})
-    return jsonify(results=results)
+    try:
+        # Replace 'xxx' with your actual OpenWeather API key
+        response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
+        
+        if response.status != 200:
+            return jsonify({'error': 'Failed to fetch data from OpenWeather API'}), 500
+        
+        raw_content = response.read()
+        json_content = json.loads(raw_content.decode('utf-8'))
+        
+        results = []
+        for list_element in json_content.get('list', []):
+            dt_value = list_element.get('dt')
+            # Convert the Unix timestamp to a human-readable date
+            date_time = datetime.utcfromtimestamp(dt_value).strftime('%Y-%m-%d %H:%M:%S')
+            temp_day_value = list_element.get('main', {}).get('temp') - 273.15  # Convert Kelvin to Celsius
+            
+            results.append({
+                'DateTime': date_time,
+                'Temperature (°C)': temp_day_value
+            })
+        
+        return jsonify(results=results)
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 @app.route("/rapport/")
 def mongraphique():
