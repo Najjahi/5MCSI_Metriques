@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique des Commits</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h2>Graphique des Commits GitHub</h2>
+<canvas id="commitChart" width="600" height="400"></canvas>
+
+<script>
+    // Exemple de données de commits avec auteur et date
+    const commits = [
+        { date: "2025-01-17", author: "Najjahi", count: 3 },
+        { date: "2025-01-16", author: "Najjahi", count: 2 },
+        { date: "2025-01-15", author: "Najjahi", count: 5 }
+    ];
+
+    // Préparer les labels (dates) et les données (nombre de commits)
+    const labels = commits.map(commit => commit.date);
+    const data = commits.map(commit => commit.count);
+    const authors = commits.map(commit => commit.author);  // Collecter les auteurs
+
+    // Créer le graphique
+    const ctx = document.getElementById('commitChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',  // Graphique à barres
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Nombre de Commits',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Couleur des barres
+                borderColor: 'rgba(75, 192, 192, 1)', // Bord des barres
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItem) {
+                            // Afficher l'auteur du commit dans l'info-bulle (tooltip)
+                            const index = tooltipItem[0].dataIndex;
+                            return `Auteur: ${authors[index]}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Nombre de Commits'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
