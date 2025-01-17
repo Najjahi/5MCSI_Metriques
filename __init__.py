@@ -55,10 +55,10 @@ def commits():
         response = requests.get(url)
         response.raise_for_status()  # Vérifie les erreurs HTTP
         commits_data = response.json()  # Récupère les données JSON
-        return render_template("commits.html", commits=commits_data)
+        commits_count = len(commits_data)  # Compte le nombre de commits
+        return render_template("commits.html", commits=commits_data, count=commits_count)
     except requests.exceptions.RequestException as e:
         return f"Une erreur s'est produite : {e}", 500
-
 
 
 if __name__ == "__main__":
