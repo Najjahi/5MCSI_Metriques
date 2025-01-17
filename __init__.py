@@ -37,7 +37,7 @@ def histogramme():
     return render_template("histogramme.html")
 
 @app.route("/commits/")
-def commitse():
+def commits():
     return render_template("https://api.github.com/repos/najjahi/5MCSI_Metriques/commits") 
 
 
