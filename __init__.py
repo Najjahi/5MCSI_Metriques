@@ -12,7 +12,7 @@ def hello_world():
     return render_template('hello.html')
 
 @app.route('/contact/')
-def contact):
+def contact():
     return render_template('contact.html')
   
 if __name__ == "__main__":
