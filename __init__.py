@@ -11,7 +11,7 @@ app = Flask(__name__)
 def hello_world():
     return render_template('hello.html')
 
-@app.route('/contact')
+@app.route('/contact/')
 def contact):
     return render_template('contact.html')
   
