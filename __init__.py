@@ -53,13 +53,14 @@ def extract_minutes(date_string):
 def commits():
     url = "https://api.github.com/repos/najjahi/5MCSI_Metriques/commits"
     try:
-        response = requests.get(url)
-        response.raise_for_status()  # Vérifie les erreurs HTTP
-        commits_data = response.json()  # Récupère les données JSON
-        commits_count = len(commits_data)  # Compte le nombre de commits
-        return render_template("commits.html", commits=commits_data, count=commits_count)
-    except requests.exceptions.RequestException as e:
+        with urlopen(url) as response:  # Effectue une requête HTTP avec urlopen
+            data = response.read()  # Lit la réponse brute
+            commits_data = json.loads(data)  # Convertit les données JSON en objet Python
+            commits_count = len(commits_data)  # Compte le nombre de commits
+            return render_template("commits.html", commits=commits_data, count=commits_count)
+    except Exception as e:
         return f"Une erreur s'est produite : {e}", 500
+
 
 
 if __name__ == "__main__":
