@@ -55,7 +55,7 @@ def commits():
         with urlopen(url) as response:  # Effectue une requête HTTP avec urlopen
             data = response.read()  # Lit la réponse brute
             commits_data = json.loads(data)  # Convertit les données JSON en objet Python
-            commits_count = len(commits_data)  # Compte le nombre de commits
+            commits_count = len(commits_data)  # Compte le nombre total de commits
             return render_template("commits.html", commits=commits_data, count=commits_count)
     except Exception as e:
         return f"Une erreur s'est produite : {e}", 500
