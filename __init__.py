@@ -36,9 +36,9 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-@app.route("/commits/")
-def commits():
-    return render_template("https://api.github.com/repos/najjahi/5MCSI_Metriques/commits") 
+#@app.route("/commits/")
+#def commits():
+    #return render_template("https://api.github.com/repos/najjahi/5MCSI_Metriques/commits") 
 
 
 @app.route('/extract-minutes/<date_string>')
@@ -46,7 +46,18 @@ def extract_minutes(date_string):
         date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
         minutes = date_object.minute
         return jsonify({'minutes': minutes})
+  
 
+@app.route("/commits/")
+def commits():
+    url = "https://api.github.com/repos/najjahi/5MCSI_Metriques/commits"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Vérifie les erreurs HTTP
+        commits_data = response.json()  # Récupère les données JSON
+        return render_template("commits.html", commits=commits_data)
+    except requests.exceptions.RequestException as e:
+        return f"Une erreur s'est produite : {e}", 500
 
 
 
