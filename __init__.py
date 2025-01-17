@@ -38,7 +38,7 @@ def histogramme():
 
 @app.route("/commits/")
 def commitse():
-    return render_template("commits.html")
+    return render_template("https://api.github.com/repos/najjahi/5MCSI_Metriques/commits") 
 
 
 @app.route('/extract-minutes/<date_string>')
