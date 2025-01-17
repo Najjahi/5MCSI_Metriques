@@ -42,7 +42,7 @@ def meteo():
         
         results = []
         for liste in json_content.get('list', []):
-            dt_value = list_element.get('dt')
+            dt_value = liste.get('dt')
            
             date_time = datetime.utcfromtimestamp(dt_value).strftime('%Y-%m-%d %H:%M:%S')   # Convert the Unix timestamp to a human-readable date
             temp_day_value = liste.get('main', {}).get('temp') - 273.15  # Convert Kelvin to Celsius
